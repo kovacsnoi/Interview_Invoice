@@ -13,6 +13,18 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 var app = builder.Build();
 
+// Automatikus migráció indításkor
+using (var scope = app.Services.CreateScope())
+{
+  var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+  Console.WriteLine($"DB connection string: {db.Database.GetConnectionString()}");
+  Console.WriteLine($"Current directory: {Directory.GetCurrentDirectory()}");
+
+  db.Database.Migrate();
+  Console.WriteLine("Migration completed.");
+}
+
 if (app.Environment.IsDevelopment())
 {
   app.UseSwagger();
