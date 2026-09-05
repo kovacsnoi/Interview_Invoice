@@ -26,8 +26,6 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IInvoiceDocumentGenerator, InvoicePdfGenerator>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
-builder.Services.AddScoped<IOrderService, OrderService>();
-builder.Services.AddScoped<IInvoiceDocumentGenerator, InvoicePdfGenerator>();
 
 var app = builder.Build();
 
