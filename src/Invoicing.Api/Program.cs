@@ -2,6 +2,7 @@ using Invoicing.Infrastructure.Persistence;
 using Invoicing.Application.Interfaces;
 using Invoicing.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Invoicing.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,7 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 var app = builder.Build();
 
