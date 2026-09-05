@@ -3,8 +3,12 @@ using Invoicing.Application.Interfaces;
 using Invoicing.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Invoicing.Application.Services;
+using QuestPDF.Infrastructure;
+using Invoicing.Infrastructure.Documents;
 
 var builder = WebApplication.CreateBuilder(args);
+
+QuestPDF.Settings.License = LicenseType.Community;
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -19,6 +23,7 @@ builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IInvoiceDocumentGenerator, InvoicePdfGenerator>();
 
 var app = builder.Build();
 
