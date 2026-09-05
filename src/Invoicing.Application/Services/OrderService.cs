@@ -4,6 +4,7 @@ using Invoicing.Application.Interfaces;
 using Invoicing.Application.Models;
 using Invoicing.Domain.Entities;
 using Invoicing.Application.Mapping;
+using Invoicing.Application.Exceptions;
 
 public class OrderService : IOrderService
 {
@@ -21,7 +22,7 @@ public class OrderService : IOrderService
 
     var customer = await _unitOfWork.Customers.GetByIdAsync(dto.CustomerId);
     if (customer is null)
-      throw new InvalidOperationException($"Nem található ügyfél ezzel az azonosítóval: {dto.CustomerId}");
+      throw new NotFoundException($"Nem található ügyfél ezzel az azonosítóval: {dto.CustomerId}");
 
     var order = new Order
     {
@@ -34,7 +35,7 @@ public class OrderService : IOrderService
     {
       var product = await _unitOfWork.Products.GetByIdAsync(itemDto.ProductId);
       if (product is null)
-        throw new InvalidOperationException($"Nem található termék ezzel az azonosítóval: {itemDto.ProductId}");
+        throw new NotFoundException($"Nem található termék ezzel az azonosítóval: {itemDto.ProductId}");
 
       if (itemDto.Quantity <= 0)
         throw new ArgumentException($"A mennyiségnek pozitívnak kell lennie (termék: {product.Name}).");
