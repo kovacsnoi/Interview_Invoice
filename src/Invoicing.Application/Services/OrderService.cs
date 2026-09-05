@@ -3,6 +3,7 @@ namespace Invoicing.Application.Services;
 using Invoicing.Application.Interfaces;
 using Invoicing.Application.Models;
 using Invoicing.Domain.Entities;
+using Invoicing.Application.Mapping;
 
 public class OrderService : IOrderService
 {
@@ -75,5 +76,17 @@ public class OrderService : IOrderService
     invoice.TotalAmount = invoice.Items.Sum(i => i.LineTotal);
 
     return invoice;
+  }
+
+  public async Task<IEnumerable<OrderDto>> GetAllAsync()
+  {
+    var orders = await _unitOfWork.Orders.GetAllWithDetailsAsync();
+    return orders.Select(o => o.ToDto());
+  }
+
+  public async Task<OrderDto?> GetByIdAsync(int id)
+  {
+    var order = await _unitOfWork.Orders.GetByIdWithDetailsAsync(id);
+    return order?.ToDto();
   }
 }

@@ -17,4 +17,13 @@ public class OrderRepository : Repository<Order>, IOrderRepository
             .ThenInclude(i => i.Product)
         .FirstOrDefaultAsync(o => o.Id == id);
   }
+
+  public async Task<IEnumerable<Order>> GetAllWithDetailsAsync()
+  {
+    return await _context.Orders
+        .Include(o => o.Customer)
+        .Include(o => o.Items)
+            .ThenInclude(i => i.Product)
+        .ToListAsync();
+  }
 }
