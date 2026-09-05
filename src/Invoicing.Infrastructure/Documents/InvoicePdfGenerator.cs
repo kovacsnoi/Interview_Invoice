@@ -31,29 +31,29 @@ public class InvoicePdfGenerator : IInvoiceDocumentGenerator
           table.ColumnsDefinition(columns =>
           {
             columns.RelativeColumn(4);
-            columns.RelativeColumn(1);
+            columns.RelativeColumn(1.5f);
             columns.RelativeColumn(2);
-            columns.RelativeColumn(2);
+            columns.RelativeColumn(2); 
           });
 
           table.Header(header =>
           {
-            header.Cell().Text("Termék").Bold();
-            header.Cell().Text("Mennyiség").Bold();
-            header.Cell().Text("Egységár").Bold();
-            header.Cell().Text("Összesen").Bold();
+            header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten1).PaddingVertical(5).Text("Termék").Bold();
+            header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten1).PaddingVertical(5).AlignRight().Text("Mennyiség").Bold();
+            header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten1).PaddingVertical(5).AlignRight().Text("Egységár").Bold();
+            header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten1).PaddingVertical(5).AlignRight().Text("Összesen").Bold();
           });
 
           foreach (var item in invoice.Items)
           {
-            table.Cell().Text(item.FormattedProductName);
-            table.Cell().Text(item.Quantity.ToString());
-            table.Cell().Text(item.UnitPrice.ToString("0.00"));
-            table.Cell().Text(item.LineTotal.ToString("0.00"));
+            table.Cell().BorderBottom(0.5f).BorderColor(Colors.Grey.Lighten3).PaddingVertical(4).Text(item.FormattedProductName);
+            table.Cell().BorderBottom(0.5f).BorderColor(Colors.Grey.Lighten3).PaddingVertical(4).AlignRight().Text(item.Quantity.ToString());
+            table.Cell().BorderBottom(0.5f).BorderColor(Colors.Grey.Lighten3).PaddingVertical(4).AlignRight().Text(item.UnitPrice.ToString("0.00"));
+            table.Cell().BorderBottom(0.5f).BorderColor(Colors.Grey.Lighten3).PaddingVertical(4).AlignRight().Text(item.LineTotal.ToString("0.00"));
           }
         });
 
-        page.Footer().AlignRight().Text(text =>
+        page.Footer().AlignRight().PaddingTop(10).Text(text =>
         {
           text.Span("Végösszeg: ").Bold();
           text.Span($"{invoice.TotalAmount:0.00}").Bold().FontSize(14);
