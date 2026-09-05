@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Invoicing.Application.Services;
 using QuestPDF.Infrastructure;
 using Invoicing.Infrastructure.Documents;
+using Invoicing.Api.ErrorHandling;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,8 +27,12 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IInvoiceDocumentGenerator, InvoicePdfGenerator>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 var app = builder.Build();
+
+app.UseExceptionHandler();
 
 // Automatikus migráció indításkor
 using (var scope = app.Services.CreateScope())

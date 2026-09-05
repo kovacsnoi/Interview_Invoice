@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
 [Route("api/[controller]")]
-public class OrderController : ControllerBase
+public class OrdersController : ControllerBase
 {
   private readonly IOrderService _orderService;
   private readonly IInvoiceDocumentGenerator _invoiceGenerator;
 
-  public OrderController(IOrderService orderService, IInvoiceDocumentGenerator invoiceGenerator)
+  public OrdersController(IOrderService orderService, IInvoiceDocumentGenerator invoiceGenerator)
   {
     _orderService = orderService;
     _invoiceGenerator = invoiceGenerator;
@@ -34,19 +34,8 @@ public class OrderController : ControllerBase
   [HttpPost]
   public async Task<IActionResult> Create(CreateOrderDto dto)
   {
-    try
-    {
-      var order = await _orderService.CreateOrderAsync(dto);
-      return CreatedAtAction(nameof(GetById), new { id = order.Id }, order);
-    }
-    catch (ArgumentException ex)
-    {
-      return BadRequest(ex.Message);
-    }
-    catch (InvalidOperationException ex)
-    {
-      return BadRequest(ex.Message);
-    }
+    var order = await _orderService.CreateOrderAsync(dto);
+    return CreatedAtAction(nameof(GetById), new { id = order.Id }, order);
   }
 
   [HttpGet("{id}/invoice")]
