@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
 [Route("api/[controller]")]
-public class OrdersController : ControllerBase
+public class OrderController : ControllerBase
 {
   private readonly IOrderService _orderService;
   private readonly IInvoiceDocumentGenerator _invoiceGenerator;
 
-  public OrdersController(IOrderService orderService, IInvoiceDocumentGenerator invoiceGenerator)
+  public OrderController(IOrderService orderService, IInvoiceDocumentGenerator invoiceGenerator)
   {
     _orderService = orderService;
     _invoiceGenerator = invoiceGenerator;

@@ -14,7 +14,7 @@ public class OrderService : IOrderService
     _unitOfWork = unitOfWork;
   }
 
-  public async Task<Order> CreateOrderAsync(CreateOrderDto dto)
+  public async Task<OrderDto> CreateOrderAsync(CreateOrderDto dto)
   {
     if (dto.Items == null || dto.Items.Count == 0)
       throw new ArgumentException("A rendelésnek legalább egy tételt tartalmaznia kell.");
@@ -49,7 +49,8 @@ public class OrderService : IOrderService
     await _unitOfWork.Orders.AddAsync(order);
     await _unitOfWork.SaveChangesAsync();
 
-    return order;
+    var createdOrder = await _unitOfWork.Orders.GetByIdWithDetailsAsync(order.Id);
+    return createdOrder!.ToDto();
   }
 
   public async Task<InvoiceDto?> GenerateInvoiceAsync(int orderId)
